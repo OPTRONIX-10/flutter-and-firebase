@@ -1,4 +1,5 @@
 import 'package:firebase_and_flutter/models/userModel.dart';
+import 'package:firebase_and_flutter/screens/services/databaseService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -46,6 +47,11 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
+
+      //create user document in fireStrore with uid
+
+      DatabaseService(uid: user!.uid)
+          .updateUserData(sugars: '0', name: 'Welcome Member', strength: 100);
       return _userFromFirebaseUser(user: user);
     } catch (e) {
       print(e.toString());
